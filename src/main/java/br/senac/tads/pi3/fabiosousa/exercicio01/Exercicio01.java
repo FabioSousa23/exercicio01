@@ -10,7 +10,7 @@ public class Exercicio01 {
 
     public static void main(String[] args) {
         Scanner leitor = new Scanner(System.in);
-        
+
         System.out.println("Cadastro de Contatos");
         System.out.println("Nome:");
         String nome = leitor.nextLine();
@@ -20,9 +20,11 @@ public class Exercicio01 {
         String email = leitor.nextLine();
         System.out.println("Telefone:");
         String tel = leitor.nextLine();
-        
-        
-        
-        
+
+        System.out.println("Nome: " + nome+"\n"
+                + "Data de Nascimento: " + dataNasc + "\n"
+                + "E-mail: " + email + "\n"
+                + "Telefone: " + tel);
+
     }
 }
