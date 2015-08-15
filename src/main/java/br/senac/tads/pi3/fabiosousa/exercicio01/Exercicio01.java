@@ -16,12 +16,17 @@ public class Exercicio01 {
         String nome = leitor.nextLine();
         System.out.println("Data de Nascimento:");
         String dataNasc = leitor.nextLine();
-        System.out.println("E-mail:");
-        String email = leitor.nextLine();
         System.out.println("Telefone:");
         String tel = leitor.nextLine();
+        System.out.println("E-mail:");
+        String email = leitor.nextLine();
 
-        System.out.println("Nome: " + nome+"\n"
+        while (!email.contains("@")) {
+            System.out.println("E-mail inválido, digite novamente: ");
+            email = leitor.nextLine();
+        }
+
+        System.out.println("Nome: " + nome + "\n"
                 + "Data de Nascimento: " + dataNasc + "\n"
                 + "E-mail: " + email + "\n"
                 + "Telefone: " + tel);
