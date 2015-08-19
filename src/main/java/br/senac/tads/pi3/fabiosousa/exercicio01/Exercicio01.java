@@ -9,6 +9,25 @@ import java.util.logging.Logger;
 public class Exercicio01 {
 
     public static void main(String[] args) {
+
+        Connection con = null;
+        Statement stmt = null;
+        try {
+            stmt = con.createStatement();
+        } catch (SQLException ex) {
+            System.out.println("Erro: "+ex.getMessage());
+        }
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql:", "", "");
+            System.out.println("Conectado.");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Classe não encontrada, adicione o driver nas bibliotecas.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
         Scanner leitor = new Scanner(System.in);
 
         System.out.println("Cadastro de Contatos");
@@ -30,6 +49,11 @@ public class Exercicio01 {
                 + "Data de Nascimento: " + dataNasc + "\n"
                 + "E-mail: " + email + "\n"
                 + "Telefone: " + tel);
-
+        
+        try {
+            stmt.execute("INSERT INTO Contatos VALUES(NEWID(),'" + nome + "')");
+        } catch (SQLException ex) {
+            System.out.println("Erro:"+ex.getMessage());
+        }
     }
 }
