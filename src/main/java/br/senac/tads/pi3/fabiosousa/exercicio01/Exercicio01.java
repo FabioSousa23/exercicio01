@@ -12,10 +12,11 @@ public class Exercicio01 {
 
         Connection con = null;
         Statement stmt = null;
+        ResultSet rs = null;
         try {
             stmt = con.createStatement();
         } catch (SQLException ex) {
-            System.out.println("Erro: "+ex.getMessage());
+            System.out.println("Erro: " + ex.getMessage());
         }
 
         try {
@@ -27,7 +28,7 @@ public class Exercicio01 {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
+
         Scanner leitor = new Scanner(System.in);
 
         System.out.println("Cadastro de Contatos");
@@ -49,12 +50,22 @@ public class Exercicio01 {
                 + "Data de Nascimento: " + dataNasc + "\n"
                 + "E-mail: " + email + "\n"
                 + "Telefone: " + tel);
-        
+
         try {
-            stmt.execute("INSERT INTO Contatos VALUES(NEWID(),'" + nome +"','"+dataNasc+"','"+
-                    tel+"','"+email+"')");
+            stmt.execute("INSERT INTO Contatos VALUES(NEWID(),'" + nome + "','" + dataNasc + "','" + tel + "','" + email + "')");
         } catch (SQLException ex) {
-            System.out.println("Erro:"+ex.getMessage());
+            System.out.println("Erro:" + ex.getMessage());
+
         }
+        try {
+            rs = stmt.executeQuery("SELECT * FROM Contatos");
+String retorno = rs.getString("Nome");
+        } catch (SQLException ex) {
+            Logger.getLogger(Exercicio01.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro:" + ex.getMessage());
+
+        }
+        
+        
     }
 }
