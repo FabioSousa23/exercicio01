@@ -51,7 +51,8 @@ public class Exercicio01 {
                 + "Telefone: " + tel);
         
         try {
-            stmt.execute("INSERT INTO Contatos VALUES(NEWID(),'" + nome + "')");
+            stmt.execute("INSERT INTO Contatos VALUES(NEWID(),'" + nome +"','"+dataNasc+"','"+
+                    tel+"','"+email+"')");
         } catch (SQLException ex) {
             System.out.println("Erro:"+ex.getMessage());
         }
