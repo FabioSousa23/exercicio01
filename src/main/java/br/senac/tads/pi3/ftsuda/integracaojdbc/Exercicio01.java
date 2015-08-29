@@ -184,6 +184,106 @@ public class Exercicio01 {
             }
         }
      }
+    
+    public void atualizarDados() {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+
+        Scanner read = new Scanner(System.in);
+
+        System.out.println("Digite o nome da pessoa que deseja atualizar: ");
+        String nome = read.nextLine();
+
+        String sql = "SELECT * FROM TB_PESSOA WHERE NM_PESSOA LIKE %'?'%";
+        
+        try {
+            conn = obterConexao();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nome);
+
+            ResultSet rs = stmt.executeQuery();
+
+            String nomes[] = null;
+
+            int cont = 0;
+
+            //Pega o tamanho correto dos resultados da consulta
+            while (rs.next()) {
+                cont++;
+            }
+
+            nomes = new String[cont];
+
+            //Lista os nomes para a decisão, caso hajam nomes iguais ou semelhantes
+            while (rs.next()) {
+                for (int i = 0; i < nomes.length; i++) {
+                    nomes[i] = rs.getString("NM_PESSOA");
+                }
+            }
+
+            //O usuário deverá inputar o número do indice correto, onde ele deseja fazer a alteração
+            int nomeCorreto = 0;
+
+            for (int i = 0; i < nomes.length; i++) {
+                System.out.println(i + "-" + nomes[i]);
+                do {
+                    System.out.println("Digite o número correspondente ao nome correto.");
+                    nomeCorreto = read.nextInt();
+
+                    if (nomeCorreto > nomes.length) 
+                        System.out.println("O número digitado não existe.");
+                    
+                } while (nomeCorreto > nomes.length);
+
+                
+                //O usuário deve escolher a opção a ser alterada
+                System.out.println("Digite o campo que deseja alterar: ");
+                int opcao = 0;
+                String campoBD = null;
+                
+                switch(opcao){
+                    case 1:
+                        System.out.println("Digite o novo Nome");
+                        campoBD = "NM_PESSOA";
+                        break;
+                    case 2:
+                        System.out.println("Digite o novo Data de Nascimento");
+                        campoBD = "DT_NASCIMENTO";
+                        break;
+                    case 3:
+                        System.out.println("Digite o novo Telefone");
+                        campoBD = "VL_TELEFONE";
+                        break;
+                    case 4: 
+                        System.out.println("Digite o novo E-mail");
+                        campoBD = "VL_EMAIL";
+                        break;
+                        
+                    default: 
+                        System.out.println("O valor digitado não existe.");
+                }
+                System.out.println("Digite o novo valor do campo: ");
+                String novoValor = read.nextLine();
+                
+                sql = "UPDATE TB_PESSOA SET ? = '?' WHERE NM_PESSOA = '?'";
+                
+                stmt.setString(1, campoBD);
+                stmt.setString(2, novoValor);
+                stmt.setString(3, nomes[nomeCorreto]);
+                
+                stmt.executeUpdate();
+            }
+            
+            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Exercicio01.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Exercicio01.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+    }
 
     
     
