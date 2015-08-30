@@ -149,25 +149,31 @@ public class Exercicio01 {
             }
         }
     }
-    public void excluirPessoa(String nome,String email) { 
-       
-     PreparedStatement stmt = null;
-     Connection conn = null;
-     
-     String sql = ("DELETE FROM TB_PESSOA WHERE NM_PESSOA = '?' AND VL_EMAIL = '?'");
-        try { 
+
+    public void excluirPessoa(String nome, String email) {
+
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        Scanner leitor = new Scanner(System.in);
+        System.out.println("Digite o nome e o email para exclusão na agenda\n");
+        System.out.println("Digite o nome da Pessoa");
+        nome = leitor.nextLine();
+        System.out.println("Digite o Email");
+        email = leitor.nextLine();
+        String sql = ("DELETE FROM TB_PESSOA WHERE NM_PESSOA = '?' AND VL_EMAIL = '?'");
+        try {
             conn = obterConexao();
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, nome);
             stmt.setString(2, email);
             System.out.println("Registros excluidos com sucesso!!!");
             stmt.execute();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Exercicio01.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Exercicio01.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
+        } finally {
             if (stmt != null) {
                 try {
                     stmt.close();
@@ -183,8 +189,8 @@ public class Exercicio01 {
                 }
             }
         }
-     }
-    
+    }
+
     public void atualizarDados() {
         PreparedStatement stmt = null;
         Connection conn = null;
@@ -195,7 +201,7 @@ public class Exercicio01 {
         String nome = read.nextLine();
 
         String sql = "SELECT * FROM TB_PESSOA WHERE NM_PESSOA LIKE %'?'%";
-        
+
         try {
             conn = obterConexao();
             stmt = conn.prepareStatement(sql);
@@ -230,18 +236,18 @@ public class Exercicio01 {
                     System.out.println("Digite o número correspondente ao nome correto.");
                     nomeCorreto = read.nextInt();
 
-                    if (nomeCorreto > nomes.length) 
+                    if (nomeCorreto > nomes.length) {
                         System.out.println("O número digitado não existe.");
-                    
+                    }
+
                 } while (nomeCorreto > nomes.length);
 
-                
                 //O usuário deve escolher a opção a ser alterada
                 System.out.println("Digite o campo que deseja alterar: ");
                 int opcao = 0;
                 String campoBD = null;
-                
-                switch(opcao){
+
+                switch (opcao) {
                     case 1:
                         System.out.println("Digite o novo Nome");
                         campoBD = "NM_PESSOA";
@@ -254,27 +260,25 @@ public class Exercicio01 {
                         System.out.println("Digite o novo Telefone");
                         campoBD = "VL_TELEFONE";
                         break;
-                    case 4: 
+                    case 4:
                         System.out.println("Digite o novo E-mail");
                         campoBD = "VL_EMAIL";
                         break;
-                        
-                    default: 
+
+                    default:
                         System.out.println("O valor digitado não existe.");
                 }
                 System.out.println("Digite o novo valor do campo: ");
                 String novoValor = read.nextLine();
-                
+
                 sql = "UPDATE TB_PESSOA SET ? = '?' WHERE NM_PESSOA = '?'";
-                
+
                 stmt.setString(1, campoBD);
                 stmt.setString(2, novoValor);
                 stmt.setString(3, nomes[nomeCorreto]);
-                
+
                 stmt.executeUpdate();
             }
-            
-            
 
         } catch (SQLException ex) {
             Logger.getLogger(Exercicio01.class.getName()).log(Level.SEVERE, null, ex);
@@ -282,11 +286,8 @@ public class Exercicio01 {
             Logger.getLogger(Exercicio01.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
     }
 
-    
-    
     public static void main(String[] args) {
         Exercicio01 instancia = new Exercicio01();
         Scanner entrada = new Scanner(System.in);
@@ -305,7 +306,7 @@ public class Exercicio01 {
             } else if (opcao == 2) {
                 instancia.incluirPessoa();
             } else if (opcao == 3) {
-
+                instancia.atualizarDados();
             } else if (opcao == 4) {
                 instancia.excluirPessoa(null, null);
             } else if (opcao == 9) {
